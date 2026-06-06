@@ -363,12 +363,6 @@ async function init() {
         toggleFilterBtn.textContent = filterPanel.classList.contains('hidden') ? '🔍 Show Filters' : '🔽 Hide Filters';
         saveFilterState();
     });
-    clearUserSkillsBtn.addEventListener('click', async () => {
-        userSkillsTextarea.value = '';
-        await saveToStorage('userSkills', '');
-        await applyFiltersAndResetPagination();
-        alert('Skills cleared');
-    });
     timeFilter.addEventListener('change', () => {
         customDateRange.style.display = timeFilter.value === 'custom' ? 'flex' : 'none';
         saveFilterState();
@@ -414,12 +408,20 @@ async function init() {
     // Settings save also triggers re‑fetch (optional)
     saveUserSkillsBtn.addEventListener('click', async () => {
         await saveToStorage('userSkills', userSkillsTextarea.value);
+        alert('Skills saved');
         // Refresh with new skills as query
         const jobs = await fetchRealJobs();
         if (jobs) {
             allJobs = jobs;
             await applyFiltersAndResetPagination();
         }
+    });
+
+    clearUserSkillsBtn.addEventListener('click', async () => {
+        userSkillsTextarea.value = '';
+        await saveToStorage('userSkills', '');
+        await applyFiltersAndResetPagination();
+        alert('Skills cleared');
     });
 
     // Initial fetch

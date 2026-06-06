@@ -1,6 +1,6 @@
 // job-scrapper.js
 const UpworkScraper = {
-    BASE_URL: 'https://www.upwork.com/nx/search/jobs/',
+    BASE_URL: 'https://www.upwork.com/nx/find-work/best-matches',
 
     /**
      * Build an Upwork search URL with the given query and pagination.
@@ -16,14 +16,25 @@ const UpworkScraper = {
     },
 
     /**
-     * Fetch a single search results page (includes user cookies).
+     * Fetch a single search results page via background worker to avoid CORS.
      */
     async fetchPage(url) {
-        const resp = await fetch(url, { credentials: 'include' });
-        if (!resp.ok) {
-            throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
-        }
-        return resp.text();
+        return new Promise((resolve, reject) => {
+            chrome.runtime.sendMessage(
+                { type: 'FETCH_UPWORK_JOBS', url },
+                response => {
+                    if (chrome.runtime.lastError) {
+                        reject(new Error(chrome.runtime.lastError.message));
+                        return;
+                    }
+                    if (response && response.success) {
+                        resolve(response.html);
+                    } else {
+                        reject(new Error(response?.error || 'Unknown error'));
+                    }
+                }
+            );
+        });
     },
 
     /**
