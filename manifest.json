@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Upwork Job Finder & Proposal Generator",
+  "version": "1.0.0",
+  "description": "Find, filter, and get AI-powered job recommendations from Upwork with one-click proposal generation",
+  "permissions": ["storage"],
+  "host_permissions": ["https://www.upwork.com/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Upwork Job Finder"
+  }
+}

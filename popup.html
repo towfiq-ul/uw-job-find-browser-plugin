@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upwork Job Finder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app-container">
+    <!-- Tabs Header -->
+    <div class="tabs-header">
+        <button id="jobsTabBtn" class="tab-btn active">📋 Jobs</button>
+        <button id="settingsTabBtn" class="tab-btn">⚙️ Settings</button>
+    </div>
+
+    <!-- Jobs Tab Content -->
+    <div id="jobsTab" class="tab-content active">
+        <!-- Filter Toggle Button -->
+        <div class="filter-header">
+            <button id="toggleFilterBtn" class="filter-toggle-btn">🔍 Show Filters</button>
+            <button id="refreshJobsBtn" class="refresh-icon" title="Refresh Jobs">🔄</button>
+        </div>
+
+        <!-- Filter Panel (hidden by default) -->
+        <div id="filterPanel" class="filter-panel hidden">
+            <div class="filter-group">
+                <input type="text" id="skillsFilter" placeholder="Skills (comma: Java, Python)" class="filter-input">
+                <input type="text" id="titleFilter" placeholder="Job Title" class="filter-input">
+                <input type="text" id="tagsFilter" placeholder="Tags (comma: Web, API)" class="filter-input">
+            </div>
+            <div class="filter-group time-group">
+                <select id="timeFilter" class="filter-select">
+                    <option value="all">All Time</option>
+                    <option value="1h">Last 1 Hour</option>
+                    <option value="24h">Last 24 Hours</option>
+                    <option value="7d">Last Week</option>
+                    <option value="30d">Last Month</option>
+                    <option value="custom">Custom Range</option>
+                </select>
+                <div id="customDateRange" class="date-range" style="display: none;">
+                    <input type="date" id="startDate">
+                    <span>to</span>
+                    <input type="date" id="endDate">
+                </div>
+                <button id="applyFiltersBtn" class="primary-btn">Apply</button>
+                <button id="clearUserSkillsBtn" class="danger-btn">Clear</button>
+            </div>
+        </div>
+
+        <!-- Results Summary -->
+        <div class="results-header">
+            <span id="jobCount">0 jobs</span>
+            <span class="sort-info">⭐ Sorted by match</span>
+        </div>
+
+        <!-- Job List Container (infinite scroll) -->
+        <div id="jobsContainer" class="jobs-container">
+            <div class="loading">Loading jobs...</div>
+        </div>
+        <div id="loadingMore" class="loading-more hidden">Loading more jobs...</div>
+    </div>
+
+    <!-- Settings Tab Content -->
+    <div id="settingsTab" class="tab-content">
+        <div class="section">
+            <h3>🎯 Your Skills (for recommendations)</h3>
+            <textarea id="userSkills" rows="3" placeholder="Enter your skills separated by commas (e.g., Java, Spring Boot, Python, Django, React)" class="filter-input"></textarea>
+            <button id="saveUserSkillsBtn" class="secondary-btn">Save Skills</button>
+        </div>
+        <div class="section">
+            <h3>📝 Common Proposal Instructions</h3>
+            <textarea id="commonInstructions" rows="4" placeholder="Write common instructions for proposal generation. Example: Highlight my 5+ years of experience, mention similar projects, offer quick turnaround." class="filter-input"></textarea>
+            <div class="button-group">
+                <button id="saveInstructionsBtn" class="secondary-btn">Save Instructions</button>
+                <button id="clearInstructionsBtn" class="danger-btn">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Proposal Modal -->
+<div id="proposalModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>📄 Generated Proposal</h3>
+        <div id="proposalText" class="proposal-text"></div>
+        <button id="copyProposalBtn" class="copy-btn">📋 Copy Proposal</button>
+    </div>
+</div>
+
+<script src="job-scrapper.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>
